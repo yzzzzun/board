@@ -1,0 +1,3 @@
+[submodule "project-private-submodule"]
+	path = project-private-submodule
+	url = https://github.com/yzzzzun/project-private-submodule.git
