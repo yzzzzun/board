@@ -53,8 +53,6 @@ tasks.named<Jar>("jar") {
 }
 
 tasks.register<Copy>("copyPrivate") {
-    from("./project-private-submodule/board-private") {
-        include("*.yml")
-    }
+    from("./project-private-submodule/board-private")
     into("src/main/resources")
 }
