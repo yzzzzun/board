@@ -40,5 +40,3 @@ class CommentController(
         return commentService.deleteComment(commentId, deletedBy)
     }
 }
-
-

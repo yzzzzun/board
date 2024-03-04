@@ -37,7 +37,6 @@ class CommentServiceTest(
                     commentService.createComment(
                         post.id,
                         CommentCreateRequestDto(
-                            postId = 1L,
                             content = "댓글 내용",
                             createdBy = "댓글 생성자",
                         ),
@@ -56,7 +55,6 @@ class CommentServiceTest(
                         commentService.createComment(
                             999L,
                             CommentCreateRequestDto(
-                                postId = 1L,
                                 content = "댓글 내용",
                                 createdBy = "댓글 생성자",
                             ),

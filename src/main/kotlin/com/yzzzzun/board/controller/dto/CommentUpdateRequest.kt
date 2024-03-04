@@ -7,7 +7,8 @@ data class CommentUpdateRequest(
     val updatedBy: String,
 )
 
-fun CommentUpdateRequest.toDto() = CommentUpdateRequestDto(
-    content = content,
-    updatedBy = updatedBy
-)
+fun CommentUpdateRequest.toDto() =
+    CommentUpdateRequestDto(
+        content = content,
+        updatedBy = updatedBy,
+    )
