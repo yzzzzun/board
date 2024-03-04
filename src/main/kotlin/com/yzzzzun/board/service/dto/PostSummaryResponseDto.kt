@@ -1,27 +1,27 @@
-package com.yzzzzun.board.controller.dto
+package com.yzzzzun.board.service.dto
 
-import com.yzzzzun.board.service.dto.PostSummaryResponseDto
+import com.yzzzzun.board.domain.Post
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 
-data class PostSummaryResponse(
+data class PostSummaryResponseDto(
     val id: Long,
     val title: String,
     val createdBy: String,
     val createdAt: String,
 )
 
-fun Page<PostSummaryResponseDto>.toResponse() =
+fun Page<Post>.toSummaryResponseDto() =
     PageImpl(
-        content.map { it.toResponse() },
+        content.map { it.toSummaryResponseDto() },
         pageable,
         totalElements,
     )
 
-fun PostSummaryResponseDto.toResponse() =
-    PostSummaryResponse(
+fun Post.toSummaryResponseDto() =
+    PostSummaryResponseDto(
         id = id,
         title = title,
         createdBy = createdBy,
-        createdAt = createdAt,
+        createdAt = createdAt.toString(),
     )
