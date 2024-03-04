@@ -5,7 +5,7 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.ManyToMany
+import jakarta.persistence.ManyToOne
 
 @Entity
 class Tag(
@@ -13,7 +13,6 @@ class Tag(
     post: Post,
     createdBy: String,
 ) {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L
@@ -21,7 +20,7 @@ class Tag(
     var name: String = name
         protected set
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     var post: Post = post
         protected set
 }

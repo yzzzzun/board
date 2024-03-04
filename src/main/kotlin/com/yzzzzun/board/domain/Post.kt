@@ -7,7 +7,6 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.ManyToMany
 import jakarta.persistence.OneToMany
 
 @Entity
@@ -30,7 +29,7 @@ class Post(
     var comments: MutableList<Comment> = mutableListOf()
         protected set
 
-    @ManyToMany(mappedBy = "post", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = [CascadeType.ALL])
     var tags: MutableList<Tag> = tags.map { Tag(it, this, createdBy) }.toMutableList()
         protected set
 
@@ -40,6 +39,14 @@ class Post(
         }
         this.title = postUpdateRequestDto.title
         this.content = postUpdateRequestDto.content
+        updateTags(postUpdateRequestDto.tags)
         super.updatedBy(postUpdateRequestDto.updatedBy)
+    }
+
+    private fun updateTags(tags: List<String>) {
+        if (this.tags.map { it.name } != tags) {
+            this.tags.clear()
+            this.tags.addAll(tags.map { Tag(it, this, this.createdBy) })
+        }
     }
 }
