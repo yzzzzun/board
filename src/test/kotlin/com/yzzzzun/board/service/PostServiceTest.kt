@@ -25,6 +25,7 @@ import org.springframework.data.repository.findByIdOrNull
 @SpringBootTest
 class PostServiceTest(
     private val postService: PostService,
+    private val likeService: LikeService,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
     private val tagRepository: TagRepository,
@@ -195,6 +196,9 @@ class PostServiceTest(
                     Tag("tag3", saved, "hk"),
                 ),
             )
+            likeService.createLike(saved.id, "hk")
+            likeService.createLike(saved.id, "hk1")
+            likeService.createLike(saved.id, "hk2")
             When("게시글 조회 정상케이스") {
                 val post = postService.getPost(saved.id)
                 then("게시글 내용 정상 반환") {
@@ -208,6 +212,9 @@ class PostServiceTest(
                     post.tags[0] shouldBe "tag1"
                     post.tags[1] shouldBe "tag2"
                     post.tags[2] shouldBe "tag3"
+                }
+                then("좋아요 개수 조회 확인") {
+                    post.likeCount shouldBe 3
                 }
             }
             When("게시글 없는 경우") {
@@ -283,6 +290,20 @@ class PostServiceTest(
                     postPage.content[2].title shouldBe "title8"
                     postPage.content[3].title shouldBe "title7"
                     postPage.content[4].title shouldBe "title6"
+                }
+            }
+
+            When("좋아요 추가되었을 때") {
+                val postPage = postService.getPosts(PageRequest.of(0, 5), PostSearchRequestDto(tag = "tag4"))
+                postPage.content.forEach {
+                    likeService.createLike(it.id, "hk1")
+                    likeService.createLike(it.id, "hk2")
+                }
+                val likePages = postService.getPosts(PageRequest.of(0, 5), PostSearchRequestDto(tag = "tag4"))
+                then("좋아요 수 정상 확인") {
+                    likePages.content.forEach {
+                        it.likeCount shouldBe 2
+                    }
                 }
             }
         }
