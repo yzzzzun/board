@@ -1,5 +1,6 @@
 package com.yzzzzun.board.repository
 
+import com.yzzzzun.board.domain.QPost.post
 import com.yzzzzun.board.domain.QTag.tag
 import com.yzzzzun.board.domain.Tag
 import org.springframework.data.domain.Page
@@ -25,7 +26,7 @@ class CustomTagRepositoryImpl : CustomTagRepository, QuerydslRepositorySupport(T
         tagName: String,
     ): Page<Tag> {
         return from(tag)
-            .join(tag.post).fetchJoin()
+            .join(tag.post, post).fetchJoin()
             .where(tag.name.eq(tagName))
             .orderBy(tag.post.createdAt.desc())
             .offset(pageRequest.offset)
