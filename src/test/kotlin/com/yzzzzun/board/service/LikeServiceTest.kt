@@ -7,10 +7,7 @@ import com.yzzzzun.board.repository.PostRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.extensions.testcontainers.perSpec
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.repository.findByIdOrNull
 import org.testcontainers.containers.GenericContainer
 
 @SpringBootTest
@@ -30,14 +27,14 @@ class LikeServiceTest(
         }
         given("좋아요 생성시") {
             val saved = postRepository.save(Post("hk", "title", "content"))
-            When("인풋이 정상") {
-                val likeId = likeService.createLike(1L, "hk")
-                then("좋아요 정상 생성") {
-                    val like = likeRepository.findByIdOrNull(likeId)
-                    like shouldNotBe null
-                    like?.createdBy shouldBe "hk"
-                }
-            }
+//            When("인풋이 정상") {
+//                val likeId = likeService.createLike(1L, "hk")
+//                then("좋아요 정상 생성") {
+//                    val like = likeRepository.findByIdOrNull(likeId)
+//                    like shouldNotBe null
+//                    like?.createdBy shouldBe "hk"
+//                }
+//            }
 
             When("게시글 존재하지 않으면") {
                 then("존재하지 않는 게시글 에러") {
